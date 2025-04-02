@@ -10,10 +10,13 @@
         .output-container { width: 50%; padding: 20px; border-left: 2px solid #ccc; }
         .output { margin-top: 20px; padding: 10px; border: 1px solid #ccc; min-height: 100px; background: #f9f9f9; transition: background 0.3s ease; white-space: pre-line; }
         button { margin-top: 10px; cursor: pointer; }
-        .copied { background: #d4edda; } /* Animation de confirmation */
+        .copied { background: #d4edda; }
         .phrase-label { margin-left: 8px; }
         .num { display: inline-block; width: 20px; text-align: right; }
+        .sortable-list { list-style: none; padding: 0; }
+        .sortable-item { padding: 8px; border: 1px solid #ccc; margin: 5px 0; background: white; cursor: grab; }
     </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 </head>
 <body>
     <div class="container">
@@ -42,7 +45,7 @@
     </div>
     <div class="output-container">
         <h3>Phrases sélectionnées :</h3>
-        <div class="output" id="output"></div>
+        <ul id="output" class="sortable-list"></ul>
         <button onclick="copyText()">Copier le texte</button>
     </div>
     
@@ -52,21 +55,30 @@
         });
 
         function updateText() {
-            let selectedPhrases = Array.from(document.querySelectorAll('.phrase:checked'));
-            let textOutput = selectedPhrases.map(cb => cb.value).join('\n');
-            document.getElementById('output').textContent = textOutput;
-            document.getElementById('count').textContent = selectedPhrases.length + (selectedPhrases.length > 1 ? " phrases sélectionnées" : " phrase sélectionnée");
+            let outputList = document.getElementById('output');
+            outputList.innerHTML = '';
+            document.querySelectorAll('.phrase:checked').forEach(cb => {
+                let li = document.createElement('li');
+                li.textContent = cb.value;
+                li.classList.add('sortable-item');
+                outputList.appendChild(li);
+            });
         }
 
         function copyText() {
-            let text = document.getElementById('output').textContent;
+            let text = Array.from(document.querySelectorAll('#output .sortable-item'))
+                            .map(li => li.textContent).join('\n');
             navigator.clipboard.writeText(text).then(() => {
-                let outputDiv = document.getElementById('output');
-                outputDiv.classList.add('copied');
-                setTimeout(() => outputDiv.classList.remove('copied'), 1000);
                 alert("Texte copié !");
             });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            new Sortable(document.getElementById('output'), {
+                animation: 150,
+                ghostClass: 'sortable-ghost'
+            });
+        });
     </script>
 </body>
 </html>
