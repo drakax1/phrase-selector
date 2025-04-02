@@ -12,6 +12,7 @@
         button { margin-top: 10px; cursor: pointer; }
         .copied { background: #d4edda; } /* Animation de confirmation */
         .phrase-label { margin-left: 8px; }
+        .num { display: inline-block; width: 20px; text-align: right; }
     </style>
 </head>
 <body>
@@ -19,24 +20,24 @@
         <h3>Choisissez vos phrases :</h3>
         <p id="count">0 phrase sélectionnée</p>
         <div>
-            <label><input type="checkbox" class="phrase" value="- Analyse du cheminement"> 1. Analyse du cheminement</label><br>
-            <label><input type="checkbox" class="phrase" value="- Pose de postes d’appâtage sécurisés avec appâts intégrés"> 2. Pose de postes d’appâtage sécurisés avec appâts intégrés</label><br>
-            <label><input type="checkbox" class="phrase" value="- Pose d’un système de piégeage avec attractants intégrés"> 3. Pose d’un système de piégeage avec attractants intégrés</label><br>
-            <label><input type="checkbox" class="phrase" value="- Relevage du système de piégeage"> 4. Relevage du système de piégeage</label><br>
-            <label><input type="checkbox" class="phrase" value="- Contrôle de la consommation des appâts à l’intérieur des postes sécurisés"> 5. Contrôle de la consommation des appâts à l’intérieur des postes sécurisés</label><br>
-            <label><input type="checkbox" class="phrase" value="- Ré-approvisionnement en appâts des postes sécurisés"> 6. Ré-approvisionnement en appâts des postes sécurisés</label><br>
-            <label><input type="checkbox" class="phrase" value="- Obturation du/des passages à l’aide de treillis"> 7. Obturation du/des passages à l’aide de treillis</label><br>
-            <label><input type="checkbox" class="phrase" value="- Obturation du/des passages à l’aide d’une mousse spécifique"> 8. Obturation du/des passages à l’aide d’une mousse spécifique</label><br>
-            <label><input type="checkbox" class="phrase" value="- Injection de poudre répulsive"> 9. Injection de poudre répulsive</label><br>
-            <label><input type="checkbox" class="phrase" value="- Injection de poudre insecticide"> 10. Injection de poudre insecticide</label><br>
-            <label><input type="checkbox" class="phrase" value="- Pose de points de gel insecticide"> 11. Pose de points de gel insecticide</label><br>
-            <label><input type="checkbox" class="phrase" value="- Pose de boîtes avec gel insecticide intégré"> 12. Pose de boîtes avec gel insecticide intégré</label><br>
-            <label><input type="checkbox" class="phrase" value="- Pose de granulés insecticide"> 13. Pose de granulés insecticide</label><br>
-            <label><input type="checkbox" class="phrase" value="- Pulvérisation d’un produit insecticide à longue rémanence"> 14. Pulvérisation d’un produit insecticide à longue rémanence</label><br>
-            <label><input type="checkbox" class="phrase" value="- Pulvérisation d’un produit insecticide à effet choc"> 15. Pulvérisation d’un produit insecticide à effet choc</label><br>
-            <label><input type="checkbox" class="phrase" value="- Elimination du nid"> 16. Elimination du nid</label><br>
-            <label><input type="checkbox" class="phrase" value="- Pose de piège avec attractant intégré"> 17. Pose de piège avec attractant intégré</label><br>
-            <label><input type="checkbox" class="phrase" value="- Triage des denrées alimentaires sèches"> 18. Triage des denrées alimentaires sèches</label><br>
+            <label><input type="checkbox" class="phrase" value="- Analyse du cheminement"> <span class="num"> 1.</span> Analyse du cheminement</label><br>
+            <label><input type="checkbox" class="phrase" value="- Pose de postes d’appâtage sécurisés avec appâts intégrés"> <span class="num"> 2.</span> Pose de postes d’appâtage sécurisés avec appâts intégrés</label><br>
+            <label><input type="checkbox" class="phrase" value="- Pose d’un système de piégeage avec attractants intégrés"> <span class="num"> 3.</span> Pose d’un système de piégeage avec attractants intégrés</label><br>
+            <label><input type="checkbox" class="phrase" value="- Relevage du système de piégeage"> <span class="num"> 4.</span> Relevage du système de piégeage</label><br>
+            <label><input type="checkbox" class="phrase" value="- Contrôle de la consommation des appâts à l’intérieur des postes sécurisés"> <span class="num"> 5.</span> Contrôle de la consommation des appâts à l’intérieur des postes sécurisés</label><br>
+            <label><input type="checkbox" class="phrase" value="- Ré-approvisionnement en appâts des postes sécurisés"> <span class="num"> 6.</span> Ré-approvisionnement en appâts des postes sécurisés</label><br>
+            <label><input type="checkbox" class="phrase" value="- Obturation du/des passages à l’aide de treillis"> <span class="num"> 7.</span> Obturation du/des passages à l’aide de treillis</label><br>
+            <label><input type="checkbox" class="phrase" value="- Obturation du/des passages à l’aide d’une mousse spécifique"> <span class="num"> 8.</span> Obturation du/des passages à l’aide d’une mousse spécifique</label><br>
+            <label><input type="checkbox" class="phrase" value="- Injection de poudre répulsive"> <span class="num"> 9.</span> Injection de poudre répulsive</label><br>
+            <label><input type="checkbox" class="phrase" value="- Injection de poudre insecticide"> <span class="num">10.</span> Injection de poudre insecticide</label><br>
+            <label><input type="checkbox" class="phrase" value="- Pose de points de gel insecticide"> <span class="num">11.</span> Pose de points de gel insecticide</label><br>
+            <label><input type="checkbox" class="phrase" value="- Pose de boîtes avec gel insecticide intégré"> <span class="num">12.</span> Pose de boîtes avec gel insecticide intégré</label><br>
+            <label><input type="checkbox" class="phrase" value="- Pose de granulés insecticide"> <span class="num">13.</span> Pose de granulés insecticide</label><br>
+            <label><input type="checkbox" class="phrase" value="- Pulvérisation d’un produit insecticide à longue rémanence"> <span class="num">14.</span> Pulvérisation d’un produit insecticide à longue rémanence</label><br>
+            <label><input type="checkbox" class="phrase" value="- Pulvérisation d’un produit insecticide à effet choc"> <span class="num">15.</span> Pulvérisation d’un produit insecticide à effet choc</label><br>
+            <label><input type="checkbox" class="phrase" value="- Elimination du nid"> <span class="num">16.</span> Elimination du nid</label><br>
+            <label><input type="checkbox" class="phrase" value="- Pose de piège avec attractant intégré"> <span class="num">17.</span> Pose de piège avec attractant intégré</label><br>
+            <label><input type="checkbox" class="phrase" value="- Triage des denrées alimentaires sèches"> <span class="num">18.</span> Triage des denrées alimentaires sèches</label><br>
         </div>
     </div>
     <div class="output-container">
