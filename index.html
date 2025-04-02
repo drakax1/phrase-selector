@@ -8,7 +8,7 @@
         body { font-family: Arial, sans-serif; margin: 20px; display: flex; }
         .container { width: 50%; padding: 20px; }
         .output-container { width: 50%; padding: 20px; border-left: 2px solid #ccc; }
-        .output { margin-top: 20px; padding: 10px; border: 1px solid #ccc; min-height: 100px; background: #f9f9f9; transition: background 0.3s ease; }
+        .output { margin-top: 20px; padding: 10px; border: 1px solid #ccc; min-height: 100px; background: #f9f9f9; transition: background 0.3s ease; white-space: pre-line; }
         button { margin-top: 10px; cursor: pointer; }
         .copied { background: #d4edda; } /* Animation de confirmation */
     </style>
@@ -18,24 +18,24 @@
         <h3>Choisissez vos phrases :</h3>
         <p id="count">0 phrase sélectionnée</p>
         <div>
-            <input type="checkbox" class="phrase" value="Analyse du cheminement"> Analyse du cheminement<br>
-            <input type="checkbox" class="phrase" value="Pose de postes d’appâtage sécurisés avec appâts intégrés"> Pose de postes d’appâtage sécurisés avec appâts intégrés<br>
-            <input type="checkbox" class="phrase" value="Pose d’un système de piégeage avec attractants intégrés"> Pose d’un système de piégeage avec attractants intégrés<br>
-            <input type="checkbox" class="phrase" value="Relevage du système de piégeage"> Relevage du système de piégeage<br>
-            <input type="checkbox" class="phrase" value="Contrôle de la consommation des appâts à l’intérieur des postes sécurisés"> Contrôle de la consommation des appâts à l’intérieur des postes sécurisés<br>
-            <input type="checkbox" class="phrase" value="Ré-approvisionnement en appâts des postes sécurisés"> Ré-approvisionnement en appâts des postes sécurisés<br>
-            <input type="checkbox" class="phrase" value="Obturation du/des passages à l’aide de treillis"> Obturation du/des passages à l’aide de treillis<br>
-            <input type="checkbox" class="phrase" value="Obturation du/des passages à l’aide d’une mousse spécifique"> Obturation du/des passages à l’aide d’une mousse spécifique<br>
-            <input type="checkbox" class="phrase" value="Injection de poudre répulsive"> Injection de poudre répulsive<br>
-            <input type="checkbox" class="phrase" value="Injection de poudre insecticide"> Injection de poudre insecticide<br>
-            <input type="checkbox" class="phrase" value="Pose de points de gel insecticide"> Pose de points de gel insecticide<br>
-            <input type="checkbox" class="phrase" value="Pose de boîtes avec gel insecticide intégré"> Pose de boîtes avec gel insecticide intégré<br>
-            <input type="checkbox" class="phrase" value="Pose de granulés insecticide"> Pose de granulés insecticide<br>
-            <input type="checkbox" class="phrase" value="Pulvérisation d’un produit insecticide à longue rémanence"> Pulvérisation d’un produit insecticide à longue rémanence<br>
-            <input type="checkbox" class="phrase" value="Pulvérisation d’un produit insecticide à effet choc"> Pulvérisation d’un produit insecticide à effet choc<br>
-            <input type="checkbox" class="phrase" value="Elimination du nid"> Elimination du nid<br>
-            <input type="checkbox" class="phrase" value="Pose de piège avec attractant intégré"> Pose de piège avec attractant intégré<br>
-            <input type="checkbox" class="phrase" value="Triage des denrées alimentaires sèches"> Triage des denrées alimentaires sèches<br>
+            <input type="checkbox" class="phrase" value="- Analyse du cheminement"> Analyse du cheminement<br>
+            <input type="checkbox" class="phrase" value="- Pose de postes d’appâtage sécurisés avec appâts intégrés"> Pose de postes d’appâtage sécurisés avec appâts intégrés<br>
+            <input type="checkbox" class="phrase" value="- Pose d’un système de piégeage avec attractants intégrés"> Pose d’un système de piégeage avec attractants intégrés<br>
+            <input type="checkbox" class="phrase" value="- Relevage du système de piégeage"> Relevage du système de piégeage<br>
+            <input type="checkbox" class="phrase" value="- Contrôle de la consommation des appâts à l’intérieur des postes sécurisés"> Contrôle de la consommation des appâts à l’intérieur des postes sécurisés<br>
+            <input type="checkbox" class="phrase" value="- Ré-approvisionnement en appâts des postes sécurisés"> Ré-approvisionnement en appâts des postes sécurisés<br>
+            <input type="checkbox" class="phrase" value="- Obturation du/des passages à l’aide de treillis"> Obturation du/des passages à l’aide de treillis<br>
+            <input type="checkbox" class="phrase" value="- Obturation du/des passages à l’aide d’une mousse spécifique"> Obturation du/des passages à l’aide d’une mousse spécifique<br>
+            <input type="checkbox" class="phrase" value="- Injection de poudre répulsive"> Injection de poudre répulsive<br>
+            <input type="checkbox" class="phrase" value="- Injection de poudre insecticide"> Injection de poudre insecticide<br>
+            <input type="checkbox" class="phrase" value="- Pose de points de gel insecticide"> Pose de points de gel insecticide<br>
+            <input type="checkbox" class="phrase" value="- Pose de boîtes avec gel insecticide intégré"> Pose de boîtes avec gel insecticide intégré<br>
+            <input type="checkbox" class="phrase" value="- Pose de granulés insecticide"> Pose de granulés insecticide<br>
+            <input type="checkbox" class="phrase" value="- Pulvérisation d’un produit insecticide à longue rémanence"> Pulvérisation d’un produit insecticide à longue rémanence<br>
+            <input type="checkbox" class="phrase" value="- Pulvérisation d’un produit insecticide à effet choc"> Pulvérisation d’un produit insecticide à effet choc<br>
+            <input type="checkbox" class="phrase" value="- Elimination du nid"> Elimination du nid<br>
+            <input type="checkbox" class="phrase" value="- Pose de piège avec attractant intégré"> Pose de piège avec attractant intégré<br>
+            <input type="checkbox" class="phrase" value="- Triage des denrées alimentaires sèches"> Triage des denrées alimentaires sèches<br>
         </div>
     </div>
     <div class="output-container">
@@ -52,7 +52,7 @@
         function updateText() {
             let selectedPhrases = Array.from(document.querySelectorAll('.phrase:checked'));
             let textOutput = selectedPhrases.map(cb => cb.value).join('\n');
-            document.getElementById('output').textContent = textOutput.trim();
+            document.getElementById('output').textContent = textOutput;
             document.getElementById('count').textContent = selectedPhrases.length + (selectedPhrases.length > 1 ? " phrases sélectionnées" : " phrase sélectionnée");
         }
 
