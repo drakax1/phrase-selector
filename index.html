@@ -1,162 +1,243 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sélection de Phrases</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; display: flex; flex-wrap: wrap; }
-        .container, .output-container { width: 100%; max-width: 600px; padding: 20px; box-sizing: border-box; }
-        .output-container { border-left: 2px solid #ccc; }
-        .output { margin-top: 20px; padding: 10px; border: 1px solid #ccc; min-height: 100px; background: #f9f9f9; transition: background 0.3s ease; white-space: pre-line; }
-        button { margin-top: 10px; cursor: pointer; }
-        .copied { background: #d4edda; }
-        .phrase-label { margin-left: 8px; }
-        .num { display: inline-block; width: 20px; text-align: right; }
-        .sortable-list { list-style: none; padding: 0; }
-        .sortable-item { padding: 8px; border: 1px solid #ccc; margin: 5px 0; background: white; cursor: grab; }
-        #copyMessage {
-            margin-top: 10px;
-            color: green;
-            display: none;
-        }
-    </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sélection de Phrases</title>
+  <style>
+    body { 
+      font-family: Arial, sans-serif; 
+      margin: 20px; 
+      display: flex; 
+    }
+    .container { 
+      width: 50%; 
+      padding: 20px; 
+    }
+    .output-container { 
+      width: 50%; 
+      padding: 20px; 
+      border-left: 2px solid #ccc; 
+    }
+    .output { 
+      margin-top: 20px; 
+      padding: 10px; 
+      border: 1px solid #ccc; 
+      min-height: 100px; 
+      background: #f9f9f9; 
+      transition: background 0.3s ease; 
+      white-space: pre-line; 
+    }
+    button { 
+      margin-top: 10px; 
+      cursor: pointer; 
+    }
+    .copied { background: #d4edda; }
+    .sortable-list { 
+      list-style: none; 
+      padding: 0; 
+    }
+    .sortable-item { 
+      padding: 8px; 
+      border: 1px solid #ccc; 
+      margin: 5px 0; 
+      background: white; 
+      cursor: grab; 
+    }
+    .phrase-wrapper {
+      margin-bottom: 5px;
+    }
+    /* Numéro avec largeur fixe et aligné à droite */
+    .phrase-number {
+      display: inline-block;
+      width: 30px;
+      text-align: right;
+      margin-right: 5px;
+    }
+    /* Le texte s'aligne naturellement à côté du numéro */
+    .phrase-text {
+      display: inline;
+    }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <h3>Choisissez vos phrases :</h3>
-        <p id="count">0 phrase sélectionnée</p>
-        <div>
-            <label for="phrase1">
-                <input type="checkbox" id="phrase1" class="phrase" value="- Analyse du cheminement">
-                <span class="num"> 1.</span> Analyse du cheminement
-            </label><br>
-            <label for="phrase2">
-                <input type="checkbox" id="phrase2" class="phrase" value="- Pose de postes d’appâtage sécurisés avec appâts intégrés">
-                <span class="num"> 2.</span> Pose de postes d’appâtage sécurisés avec appâts intégrés
-            </label><br>
-            <label for="phrase3">
-                <input type="checkbox" id="phrase3" class="phrase" value="- Pose d’un système de piégeage avec attractants intégrés">
-                <span class="num"> 3.</span> Pose d’un système de piégeage avec attractants intégrés
-            </label><br>
-            <label for="phrase4">
-                <input type="checkbox" id="phrase4" class="phrase" value="- Relevage du système de piégeage">
-                <span class="num"> 4.</span> Relevage du système de piégeage
-            </label><br>
-            <label for="phrase5">
-                <input type="checkbox" id="phrase5" class="phrase" value="- Contrôle de la consommation des appâts à l’intérieur des postes sécurisés">
-                <span class="num"> 5.</span> Contrôle de la consommation des appâts à l’intérieur des postes sécurisés
-            </label><br>
-            <label for="phrase6">
-                <input type="checkbox" id="phrase6" class="phrase" value="- Ré-approvisionnement en appâts des postes sécurisés">
-                <span class="num"> 6.</span> Ré-approvisionnement en appâts des postes sécurisés
-            </label><br>
-            <label for="phrase7">
-                <input type="checkbox" id="phrase7" class="phrase" value="- Obturation du/des passages à l’aide de treillis">
-                <span class="num"> 7.</span> Obturation du/des passages à l’aide de treillis
-            </label><br>
-            <label for="phrase8">
-                <input type="checkbox" id="phrase8" class="phrase" value="- Obturation du/des passages à l’aide d’une mousse spécifique">
-                <span class="num"> 8.</span> Obturation du/des passages à l’aide d’une mousse spécifique
-            </label><br>
-            <label for="phrase9">
-                <input type="checkbox" id="phrase9" class="phrase" value="- Injection de poudre répulsive">
-                <span class="num"> 9.</span> Injection de poudre répulsive
-            </label><br>
-            <label for="phrase10">
-                <input type="checkbox" id="phrase10" class="phrase" value="- Injection de poudre insecticide">
-                <span class="num">10.</span> Injection de poudre insecticide
-            </label><br>
-            <label for="phrase11">
-                <input type="checkbox" id="phrase11" class="phrase" value="- Pose de points de gel insecticide">
-                <span class="num">11.</span> Pose de points de gel insecticide
-            </label><br>
-            <label for="phrase12">
-                <input type="checkbox" id="phrase12" class="phrase" value="- Pose de boîtes avec gel insecticide intégré">
-                <span class="num">12.</span> Pose de boîtes avec gel insecticide intégré
-            </label><br>
-            <label for="phrase13">
-                <input type="checkbox" id="phrase13" class="phrase" value="- Pose de granulés insecticide">
-                <span class="num">13.</span> Pose de granulés insecticide
-            </label><br>
-            <label for="phrase14">
-                <input type="checkbox" id="phrase14" class="phrase" value="- Pulvérisation d’un produit insecticide à longue rémanence">
-                <span class="num">14.</span> Pulvérisation d’un produit insecticide à longue rémanence
-            </label><br>
-            <label for="phrase15">
-                <input type="checkbox" id="phrase15" class="phrase" value="- Pulvérisation d’un produit insecticide à effet choc">
-                <span class="num">15.</span> Pulvérisation d’un produit insecticide à effet choc
-            </label><br>
-            <label for="phrase16">
-                <input type="checkbox" id="phrase16" class="phrase" value="- Elimination du nid">
-                <span class="num">16.</span> Elimination du nid
-            </label><br>
-            <label for="phrase17">
-                <input type="checkbox" id="phrase17" class="phrase" value="- Pose de piège avec attractant intégré">
-                <span class="num">17.</span> Pose de piège avec attractant intégré
-            </label><br>
-            <label for="phrase18">
-                <input type="checkbox" id="phrase18" class="phrase" value="- Triage des denrées alimentaires sèches">
-                <span class="num">18.</span> Triage des denrées alimentaires sèches
-            </label><br>
-        </div>
+  <div class="container">
+    <h3>Choisissez vos phrases :</h3>
+    <p id="count">0 phrase sélectionnée</p>
+    <div>
+      <div class="phrase-wrapper">
+        <label for="phrase1">
+          <input type="checkbox" id="phrase1" class="phrase" value="- Analyse du cheminement">
+          <span class="phrase-number">1.</span>
+          <span class="phrase-text">Analyse du cheminement</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase2">
+          <input type="checkbox" id="phrase2" class="phrase" value="- Pose de postes d’appâtage sécurisés avec appâts intégrés">
+          <span class="phrase-number">2.</span>
+          <span class="phrase-text">Pose de postes d’appâtage sécurisés avec appâts intégrés</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase3">
+          <input type="checkbox" id="phrase3" class="phrase" value="- Pose d’un système de piégeage avec attractants intégrés">
+          <span class="phrase-number">3.</span>
+          <span class="phrase-text">Pose d’un système de piégeage avec attractants intégrés</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase4">
+          <input type="checkbox" id="phrase4" class="phrase" value="- Relevage du système de piégeage">
+          <span class="phrase-number">4.</span>
+          <span class="phrase-text">Relevage du système de piégeage</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase5">
+          <input type="checkbox" id="phrase5" class="phrase" value="- Contrôle de la consommation des appâts à l’intérieur des postes sécurisés">
+          <span class="phrase-number">5.</span>
+          <span class="phrase-text">Contrôle de la consommation des appâts à l’intérieur des postes sécurisés</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase6">
+          <input type="checkbox" id="phrase6" class="phrase" value="- Ré-approvisionnement en appâts des postes sécurisés">
+          <span class="phrase-number">6.</span>
+          <span class="phrase-text">Ré-approvisionnement en appâts des postes sécurisés</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase7">
+          <input type="checkbox" id="phrase7" class="phrase" value="- Obturation du/des passages à l’aide de treillis">
+          <span class="phrase-number">7.</span>
+          <span class="phrase-text">Obturation du/des passages à l’aide de treillis</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase8">
+          <input type="checkbox" id="phrase8" class="phrase" value="- Obturation du/des passages à l’aide d’une mousse spécifique">
+          <span class="phrase-number">8.</span>
+          <span class="phrase-text">Obturation du/des passages à l’aide d’une mousse spécifique</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase9">
+          <input type="checkbox" id="phrase9" class="phrase" value="- Injection de poudre répulsive">
+          <span class="phrase-number">9.</span>
+          <span class="phrase-text">Injection de poudre répulsive</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase10">
+          <input type="checkbox" id="phrase10" class="phrase" value="- Injection de poudre insecticide">
+          <span class="phrase-number">10.</span>
+          <span class="phrase-text">Injection de poudre insecticide</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase11">
+          <input type="checkbox" id="phrase11" class="phrase" value="- Pose de points de gel insecticide">
+          <span class="phrase-number">11.</span>
+          <span class="phrase-text">Pose de points de gel insecticide</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase12">
+          <input type="checkbox" id="phrase12" class="phrase" value="- Pose de boîtes avec gel insecticide intégré">
+          <span class="phrase-number">12.</span>
+          <span class="phrase-text">Pose de boîtes avec gel insecticide intégré</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase13">
+          <input type="checkbox" id="phrase13" class="phrase" value="- Pose de granulés insecticide">
+          <span class="phrase-number">13.</span>
+          <span class="phrase-text">Pose de granulés insecticide</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase14">
+          <input type="checkbox" id="phrase14" class="phrase" value="- Pulvérisation d’un produit insecticide à longue rémanence">
+          <span class="phrase-number">14.</span>
+          <span class="phrase-text">Pulvérisation d’un produit insecticide à longue rémanence</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase15">
+          <input type="checkbox" id="phrase15" class="phrase" value="- Pulvérisation d’un produit insecticide à effet choc">
+          <span class="phrase-number">15.</span>
+          <span class="phrase-text">Pulvérisation d’un produit insecticide à effet choc</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase16">
+          <input type="checkbox" id="phrase16" class="phrase" value="- Elimination du nid">
+          <span class="phrase-number">16.</span>
+          <span class="phrase-text">Elimination du nid</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase17">
+          <input type="checkbox" id="phrase17" class="phrase" value="- Pose de piège avec attractant intégré">
+          <span class="phrase-number">17.</span>
+          <span class="phrase-text">Pose de piège avec attractant intégré</span>
+        </label>
+      </div>
+      <div class="phrase-wrapper">
+        <label for="phrase18">
+          <input type="checkbox" id="phrase18" class="phrase" value="- Triage des denrées alimentaires sèches">
+          <span class="phrase-number">18.</span>
+          <span class="phrase-text">Triage des denrées alimentaires sèches</span>
+        </label>
+      </div>
     </div>
-    <div class="output-container">
-        <h3>Phrases sélectionnées :</h3>
-        <ul id="output" class="sortable-list"></ul>
-        <button onclick="copyText()">Copier le texte</button>
-        <div id="copyMessage">Texte copié !</div>
-    </div>
-    
-    <script>
-        // Fonction pour mettre à jour la liste des phrases sélectionnées
-        function updateText() {
-            let outputList = document.getElementById('output');
-            outputList.innerHTML = '';
-            let selectedCheckboxes = document.querySelectorAll('.phrase:checked');
-            selectedCheckboxes.forEach(cb => {
-                let li = document.createElement('li');
-                li.textContent = cb.value;
-                li.classList.add('sortable-item');
-                outputList.appendChild(li);
-            });
-            updateCount(selectedCheckboxes.length); // Mise à jour du nombre de phrases sélectionnées
-        }
+  </div>
+  <div class="output-container">
+    <h3>Phrases sélectionnées :</h3>
+    <ul id="output" class="sortable-list"></ul>
+    <button onclick="copyText()">Copier le texte</button>
+  </div>
+  
+  <script>
+    function updateText() {
+      let outputList = document.getElementById('output');
+      outputList.innerHTML = '';
+      let selectedCheckboxes = document.querySelectorAll('.phrase:checked');
+      selectedCheckboxes.forEach(cb => {
+        let li = document.createElement('li');
+        li.textContent = cb.value;
+        li.classList.add('sortable-item');
+        outputList.appendChild(li);
+      });
+      updateCount(selectedCheckboxes.length);
+    }
 
-        // Fonction pour mettre à jour le compteur de phrases sélectionnées
-        function updateCount(count) {
-            document.getElementById('count').textContent = `${count} phrase${count > 1 ? 's' : ''} sélectionnée${count > 1 ? 's' : ''}`;
-        }
+    function updateCount(count) {
+      document.getElementById('count').textContent = `${count} phrase${count > 1 ? 's' : ''} sélectionnée${count > 1 ? 's' : ''}`;
+    }
 
-        // Ajouter un écouteur d'événements sur chaque case à cocher
-        document.querySelectorAll('.phrase').forEach(checkbox => {
-            checkbox.addEventListener('change', updateText);
-        });
+    document.querySelectorAll('.phrase').forEach(checkbox => {
+      checkbox.addEventListener('change', updateText);
+    });
 
-        // Fonction pour copier le texte des phrases sélectionnées
-        function copyText() {
-            let text = Array.from(document.querySelectorAll('#output .sortable-item'))
-                            .map(li => li.textContent).join('\n');
-            navigator.clipboard.writeText(text).then(() => {
-                let msgElem = document.getElementById('copyMessage');
-                msgElem.style.display = 'block';
-                // Masquer le message après 2 secondes
-                setTimeout(() => {
-                    msgElem.style.display = 'none';
-                }, 2000);
-            }).catch(err => {
-                console.error('Erreur lors de la copie : ', err);
-            });
-        }
+    function copyText() {
+      let text = Array.from(document.querySelectorAll('#output .sortable-item'))
+                      .map(li => li.textContent).join('\n');
+      navigator.clipboard.writeText(text).then(() => {
+        alert("Texte copié !");
+      }).catch(err => {
+        console.error('Erreur lors de la copie : ', err);
+      });
+    }
 
-        // Initialisation de la fonction pour la gestion du tri des éléments
-        document.addEventListener("DOMContentLoaded", function() {
-            new Sortable(document.getElementById('output'), {
-                animation: 150,
-                ghostClass: 'sortable-ghost'
-            });
-        });
-    </script>
+    document.addEventListener("DOMContentLoaded", function() {
+      new Sortable(document.getElementById('output'), {
+        animation: 150,
+        ghostClass: 'sortable-ghost'
+      });
+    });
+  </script>
 </body>
 </html>
