@@ -5,14 +5,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Sélection de Phrases</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: Arial, sans-serif;
       margin: 20px;
       display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
     }
 
     .container, .output-container {
-      width: 50%;
+      flex: 1 1 400px;
       padding: 20px;
     }
 
@@ -26,17 +32,21 @@
       border: 1px solid #ccc;
       min-height: 100px;
       background: #f9f9f9;
-      transition: background 0.3s ease;
       white-space: pre-line;
     }
 
     button {
       margin-top: 10px;
       cursor: pointer;
+      padding: 8px 16px;
+      background: #007bff;
+      color: white;
+      border: none;
+      border-radius: 4px;
     }
 
-    .copied {
-      background: #d4edda;
+    button:hover {
+      background-color: #0056b3;
     }
 
     .sortable-list {
@@ -52,39 +62,64 @@
       cursor: grab;
     }
 
-    /* Nouveau style pour un alignement propre */
-    .phrase-label {
-      display: grid;
-      grid-template-columns: auto 35px 1fr;
-      align-items: start;
-      column-gap: 8px;
-      margin-bottom: 6px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: left;
+      border: 1px solid #ccc;
+    }
+
+    .num {
+      text-align: center;
     }
 
     .phrase-label input {
       margin: 0;
     }
 
-    .phrase-label .num {
-      text-align: right;
-      padding-top: 2px; /* Pour forcer l’alignement haut */
+    #copy-confirmation {
+      margin-top: 10px;
+      color: green;
+      font-weight: bold;
+      display: none;
     }
+
+    #textarea-container {
+      margin-bottom: 15px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 60px;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      resize: none;
+    }
+
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
 </head>
 <body>
   <div class="container">
     <h3>Choisissez vos phrases :</h3>
-    <p id="count">0 phrase sélectionnée</p>
-    <div id="checkboxes">
-      <!-- Phrases générées dynamiquement pour clarté -->
+    <div id="textarea-container">
+      <textarea id="numberInput" placeholder="Entrez les numéros des phrases à sélectionner, séparés par des virgules (ex: 01, 05, 12)"></textarea>
     </div>
+    <p id="count">0 phrase sélectionnée</p>
+    <div id="checkboxes"></div>
   </div>
 
   <div class="output-container">
     <h3>Phrases sélectionnées :</h3>
     <ul id="output" class="sortable-list"></ul>
     <button onclick="copyText()">Copier le texte</button>
+    <p id="copy-confirmation">✅ Texte copié !</p>
   </div>
 
   <script>
@@ -111,35 +146,42 @@
 
     const checkboxContainer = document.getElementById('checkboxes');
 
-    phrases.forEach((text, index) => {
-      const label = document.createElement('label');
-      label.classList.add('phrase-label');
+    const table = document.createElement('table');
+    const headerRow = table.insertRow();
+    headerRow.innerHTML = '<th style="text-align: center;">✔</th><th>N°</th><th>Phrases</th>';
+    checkboxContainer.appendChild(table);
 
+    phrases.forEach((text, index) => {
+      const row = table.insertRow();
+
+      // Case à cocher
+      const checkboxCell = row.insertCell();
       const checkbox = document.createElement('input');
       checkbox.type = 'checkbox';
       checkbox.classList.add('phrase');
       checkbox.value = `- ${text}`;
+      checkbox.dataset.index = index;
+      checkboxCell.style.textAlign = "center"; // Centrage de la checkmark
+      checkboxCell.appendChild(checkbox);
 
+      // Numéro
+      const numCell = row.insertCell();
       const num = document.createElement('span');
       num.classList.add('num');
-      num.textContent = `${(index + 1).toString().padStart(2, '0')}.`;
+      num.textContent = `${(index + 1).toString().padStart(2, '0')}`; // Retirer le point
+      numCell.appendChild(num);
 
-      const phraseSpan = document.createElement('span');
-      phraseSpan.textContent = text;
-
-      label.appendChild(checkbox);
-      label.appendChild(num);
-      label.appendChild(phraseSpan);
-
-      checkboxContainer.appendChild(label);
+      // Phrase
+      const phraseCell = row.insertCell();
+      phraseCell.textContent = text;
     });
 
     function updateText() {
-      let outputList = document.getElementById('output');
+      const outputList = document.getElementById('output');
       outputList.innerHTML = '';
-      let selectedCheckboxes = document.querySelectorAll('.phrase:checked');
+      const selectedCheckboxes = document.querySelectorAll('.phrase:checked');
       selectedCheckboxes.forEach(cb => {
-        let li = document.createElement('li');
+        const li = document.createElement('li');
         li.textContent = cb.value;
         li.classList.add('sortable-item');
         outputList.appendChild(li);
@@ -157,15 +199,52 @@
       }
     });
 
+    document.getElementById('numberInput').addEventListener('input', function () {
+      const inputValue = this.value.trim();
+      const numbers = inputValue.split(',').map(num => num.trim().padStart(2, '0')); // Ajout de padStart pour formater à 2 chiffres
+      const checkboxes = document.querySelectorAll('.phrase');
+      checkboxes.forEach(checkbox => {
+        const index = parseInt(checkbox.dataset.index);
+        const formattedNumber = (index + 1).toString().padStart(2, '0');
+        checkbox.checked = numbers.includes(formattedNumber);
+      });
+      updateText();
+    });
+
     function copyText() {
-      let text = Array.from(document.querySelectorAll('#output .sortable-item'))
-                      .map(li => li.textContent).join('\n');
-      navigator.clipboard.writeText(text)
-        .then(() => alert("Texte copié !"))
-        .catch(() => alert("Erreur lors de la copie !"));
+      const text = Array.from(document.querySelectorAll('#output .sortable-item'))
+                        .map(li => li.textContent).join('\n');
+      const confirmation = document.getElementById('copy-confirmation');
+
+      // Essai via clipboard API
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(text).then(() => {
+          confirmation.style.display = 'block';
+          setTimeout(() => confirmation.style.display = 'none', 1500);
+        }).catch(() => fallbackCopy(text, confirmation));
+      } else {
+        fallbackCopy(text, confirmation);
+      }
     }
 
-    document.addEventListener("DOMContentLoaded", function() {
+    function fallbackCopy(text, confirmation) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      document.body.appendChild(textarea);
+      textarea.focus();
+      textarea.select();
+      try {
+        const success = document.execCommand('copy');
+        confirmation.style.display = 'block';
+        setTimeout(() => confirmation.style.display = 'none', 1500);
+      } catch (err) {
+        alert("Erreur : la copie a échoué.");
+      }
+      document.body.removeChild(textarea);
+    }
+
+    document.addEventListener("DOMContentLoaded", function () {
       new Sortable(document.getElementById('output'), {
         animation: 150,
         ghostClass: 'sortable-ghost'
