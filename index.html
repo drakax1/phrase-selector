@@ -109,7 +109,7 @@
   <div class="container">
     <h3>Choisissez vos phrases :</h3>
     <div id="textarea-container">
-      <textarea id="numberInput" placeholder="Entrez les numéros des phrases à sélectionner, séparés par des virgules (ex: 01, 05, 12)"></textarea>
+      <textarea id="numberInput" placeholder="Entrez les numéros des phrases à sélectionner, séparés par des points (ex: 01. 05. 12)"></textarea>
     </div>
     <p id="count">0 phrase sélectionnée</p>
     <div id="checkboxes"></div>
@@ -201,7 +201,7 @@
 
     document.getElementById('numberInput').addEventListener('input', function () {
       const inputValue = this.value.trim();
-      const numbers = inputValue.split(',').map(num => num.trim().padStart(2, '0')); // Ajout de padStart pour formater à 2 chiffres
+      const numbers = inputValue.split('.').map(num => num.trim().padStart(2, '0')); // Utilisation du point comme séparateur
       const checkboxes = document.querySelectorAll('.phrase');
       checkboxes.forEach(checkbox => {
         const index = parseInt(checkbox.dataset.index);
