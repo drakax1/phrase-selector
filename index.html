@@ -216,6 +216,9 @@
                         .map(li => li.textContent).join('\n');
       const confirmation = document.getElementById('copy-confirmation');
 
+      // Vider le textarea après la copie
+      document.getElementById('numberInput').value = '';
+
       // Essai via clipboard API
       if (navigator.clipboard && window.isSecureContext) {
         navigator.clipboard.writeText(text).then(() => {
