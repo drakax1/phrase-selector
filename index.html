@@ -168,7 +168,7 @@
       const numCell = row.insertCell();
       const num = document.createElement('span');
       num.classList.add('num');
-      num.textContent = `${(index + 1).toString().padStart(2, '0')}`; // Retirer le point
+      num.textContent = `${(index + 1).toString().padStart(2, '0')}`;
       numCell.appendChild(num);
 
       // Phrase
@@ -176,17 +176,32 @@
       phraseCell.textContent = text;
     });
 
-    function updateText() {
+    function updateText(order = null) {
       const outputList = document.getElementById('output');
       outputList.innerHTML = '';
-      const selectedCheckboxes = document.querySelectorAll('.phrase:checked');
-      selectedCheckboxes.forEach(cb => {
+
+      let items = [];
+
+      if (order) {
+        // Utiliser l'ordre spécifié par le textarea
+        items = order
+          .map(num => parseInt(num) - 1)
+          .filter(index => index >= 0 && index < phrases.length)
+          .map(index => `- ${phrases[index]}`);
+      } else {
+        // Sinon, simplement prendre les cases cochées dans l'ordre du tableau
+        const selectedCheckboxes = document.querySelectorAll('.phrase:checked');
+        items = Array.from(selectedCheckboxes).map(cb => cb.value);
+      }
+
+      items.forEach(text => {
         const li = document.createElement('li');
-        li.textContent = cb.value;
+        li.textContent = text;
         li.classList.add('sortable-item');
         outputList.appendChild(li);
       });
-      updateCount(selectedCheckboxes.length);
+
+      updateCount(items.length);
     }
 
     function updateCount(count) {
@@ -201,14 +216,17 @@
 
     document.getElementById('numberInput').addEventListener('input', function () {
       const inputValue = this.value.trim();
-      const numbers = inputValue.split('.').map(num => num.trim().padStart(2, '0')); // Utilisation du point comme séparateur
+      const numbers = inputValue.split('.').map(num => num.trim()).filter(n => n !== '');
+      const formattedNumbers = numbers.map(num => num.padStart(2, '0'));
+
       const checkboxes = document.querySelectorAll('.phrase');
       checkboxes.forEach(checkbox => {
         const index = parseInt(checkbox.dataset.index);
         const formattedNumber = (index + 1).toString().padStart(2, '0');
-        checkbox.checked = numbers.includes(formattedNumber);
+        checkbox.checked = formattedNumbers.includes(formattedNumber);
       });
-      updateText();
+
+      updateText(numbers);
     });
 
     function copyText() {
@@ -240,7 +258,7 @@
       textarea.focus();
       textarea.select();
       try {
-        const success = document.execCommand('copy');
+        document.execCommand('copy');
         confirmation.style.display = 'block';
         setTimeout(() => confirmation.style.display = 'none', 1500);
       } catch (err) {
