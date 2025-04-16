@@ -216,8 +216,10 @@
                         .map(li => li.textContent).join('\n');
       const confirmation = document.getElementById('copy-confirmation');
 
-      // Vider le textarea après la copie
+      // Vider le textarea et décocher les cases
       document.getElementById('numberInput').value = '';
+      document.querySelectorAll('.phrase').forEach(cb => cb.checked = false);
+      updateText();
 
       // Essai via clipboard API
       if (navigator.clipboard && window.isSecureContext) {
